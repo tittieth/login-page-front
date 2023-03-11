@@ -1,4 +1,4 @@
-import {printLoginForm, printLogoutBtn } from "./userform.js";
+import {printLoginForm, printLogoutBtn} from "./userform.js";
 
 
 if (localStorage.getItem("username")) {

@@ -34,8 +34,6 @@ export function printLoginForm() {
     labelPassword.innerText = "Password";
 
     let loginBtn = document.createElement("button");
-    //loginBtn.setAttribute("type", "submit");
-    //loginBtn.setAttribute("value", "Login");
     loginBtn.setAttribute("id", "loginBtn");
     loginBtn.classList.add("login-btn");
     loginBtn.innerText = "Login";
@@ -54,6 +52,11 @@ export function printLoginForm() {
     signUpDiv.append(signUpTxt, signUpBtn);
     formWrapper.append(inputDivName, inputDivPassword, loginBtn, signUpDiv);
     formDiv.append(loginHeader, formWrapper);
+
+    signUpBtn.addEventListener("click", () => {
+        loggedInMsg.innerHTML = "";
+        printSignUpForm();
+    });
 
     loginBtn.addEventListener("click", () => {
 
@@ -84,6 +87,7 @@ export function printLoginForm() {
         });
 
         loginApp.innerHTML = "";
+        userMsg.innerText = "";
         loginApp.append(formDiv);
 }
 
@@ -96,10 +100,60 @@ export function printLogoutBtn() {
 
     logoutBtn.addEventListener("click", () => {
         localStorage.removeItem("username");
-        userMsg.innerText = ""
+        userMsg.innerText = "";
         printLoginForm();
     })
-    userMsg.innerHTML = "";
     loginApp.innerHTML = "";
     loginApp.appendChild(logoutBtn);
 }
+
+    function printSignUpForm() {
+    loginApp.innerHTML = "";
+    userMsg.innerText = "";
+
+    let signupFormDiv = document.createElement("div");
+    signupFormDiv.classList.add("signup-form");
+
+    let signupHeader = document.createElement("h1");
+    signupHeader.innerText = "Signup!";
+
+    let newUserName = document.createElement("input");
+    newUserName.setAttribute("type", "text");
+    newUserName.setAttribute("name", "name");
+    newUserName.setAttribute("id", "newUserName");
+    newUserName.placeholder= "name";
+
+    let newUserPassword = document.createElement("input");
+    newUserPassword .setAttribute("type", "password");
+    newUserPassword .setAttribute("name", "password");
+    newUserPassword .setAttribute("id", "newUserpassword");
+    newUserPassword.placeholder = "password";
+
+    let saveNewUserBtn = document.createElement("button");
+    saveNewUserBtn.setAttribute("id", "newUserBtn");
+    saveNewUserBtn.classList.add("new-user-btn");
+    saveNewUserBtn.innerText = "Save";
+
+    signupFormDiv.append(signupHeader, newUserName, newUserPassword, saveNewUserBtn);
+    loginApp.append(signupFormDiv);
+
+    saveNewUserBtn.addEventListener("click", () => {
+        // SKAPA EN NY ANVÄNDARE
+        let user = {userName: newUserName.value, password: newUserPassword.value };
+        console.log(user);
+
+        // SKICKA TILL SERVERN
+       fetch("http://localhost:3000/users/add", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        }, 
+        body: JSON.stringify(user)
+       })
+       .then(res => res.json())
+       .then(data => {
+            console.log(data);
+            printLoginForm(); 
+       });
+    })
+}   
