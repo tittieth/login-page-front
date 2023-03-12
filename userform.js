@@ -65,7 +65,7 @@ export function printLoginForm() {
             password: passwordInput.value
         }
         console.log(loginUser);
-        fetch("http://localhost:3000/users/login", {
+        fetch("https://jellyfish-app-lhpfw.ondigitalocean.app/users/login", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -143,7 +143,7 @@ export function printLogoutBtn() {
         console.log(user);
 
         // SKICKA TILL SERVERN
-       fetch("http://localhost:3000/users/add", {
+       fetch("https://jellyfish-app-lhpfw.ondigitalocean.app/users/add", {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
